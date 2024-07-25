@@ -4,7 +4,6 @@ require_relative 'entities'
 require_relative 'map'
 require_relative 'meta'
 require_relative '../base'
-require 'pry'
 
 module Engine
   module Game
@@ -25,9 +24,9 @@ module Engine
 
         BANK_CASH = 9000
 
-        CERT_LIMIT = { 2 => 20, 3 => 14, 4 => 11, 5 => 10, 6 => 9 }.freeze
+        CERT_LIMIT = {1=> 40, 2 => 20, 3 => 14, 4 => 11, 5 => 10, 6 => 9 }.freeze
 
-        STARTING_CASH = { 2 => 900, 3 => 600, 4 => 450, 5 => 360, 6 => 300 }.freeze
+        STARTING_CASH = { 1=> 1800 , 2 => 900, 3 => 600, 4 => 450, 5 => 360, 6 => 300 }.freeze
 
         CAPITALIZATION = :full
 
@@ -213,10 +212,17 @@ module Engine
         end
 
         # Travelling Troupe Private payout subsidy during dividends
-        # DEBUG THIS
-        def token_subsidy(entity)
-          binding.pry
-          potential_subsidies = entity.tokens.map {|token| token.city.revenue} 
+        def token_subsidy(entity, phase)
+          return 0 if !entity.companies.find {|company| company.sym=='P4'} 
+          potential_subsidies = entity.tokens.map {
+            |token| 
+            if token.city 
+              token.city.revenue[phase.tiles.last]
+              #(phase.tiles.reverse_each { |color| token.city.revenue[color] })
+            else 
+              0 
+            end
+          }
           potential_subsidies.max
         end
 

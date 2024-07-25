@@ -45,7 +45,7 @@ module Engine
             value: 70,
             revenue: 15,
             desc: 'When owned by a corp, the company gets money into its treasury equal to one of the city values it has a station token. This happens during the run train step, regardless of the number of trains or lack thereof the corp has. This does not count as paying revenue for the purposes of stock movements and this money can never be given out as dividends.',
-            sym: 'P1',
+            sym: 'P4',
             abilities: [],
             color: nil,
           },
@@ -69,7 +69,7 @@ module Engine
             value: 130,
             revenue: 15,
             desc: 'CAN ONLY BE BOUGHT INTO A COMPANY STARTING PHASE 5. A permanent 2-Train. Functions identically as a normal train. Counts for train capacity and fufills the requirement to have a train. Can be bought between companies. This company never closes.',
-            sym: 'P5',
+            sym: 'P6',
             abilities: [
               { type: 'close', on_phase: 'never'}
             ],

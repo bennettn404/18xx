@@ -9,7 +9,7 @@ module Engine
         class Dividend < Engine::Step::Dividend
           def dividend_options(entity)
             revenue = @game.routes_revenue(routes)
-            subsidy = @game.routes_subsidy(routes)
+            subsidy = @game.token_subsidy(entity, @game.phase)
             dividend_types.to_h do |type|
               payout = send(type, entity, revenue, subsidy)
               payout[:divs_to_corporation] = corporation_dividends(entity, payout[:per_share])
@@ -20,7 +20,7 @@ module Engine
           def process_dividend(action)
             entity = action.entity
             revenue = @game.routes_revenue(routes)
-            subsidy = @game.token_subsidy(entity)
+            subsidy = @game.token_subsidy(entity, @game.phase)
             kind = action.kind.to_sym
             payout = dividend_options(entity)[kind]
 
@@ -56,7 +56,7 @@ module Engine
             if (payout[:corporation] - subsidy).positive?
               @log << "#{entity.name} withholds #{@game.format_currency(payout[:corporation])}"
             elsif subsidy.positive?
-              @log << "#{entity.name} retains a subsidy of #{@game.format_currency(subsidy)}"
+              @log << "#{entity.name} retains a subsidy of #{@game.format_currency(subsidy)} from P4 - Travelling Troupe"
             elsif payout[:per_share].zero?
               @log << "#{entity.name} does not run"
             end

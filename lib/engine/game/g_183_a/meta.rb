@@ -17,7 +17,7 @@ module Engine
         GAME_PUBLISHER = :all_aboard_games
         GAME_RULES_URL = 'https://boardgamegeek.com/filepage/206629/1882-rules'
 
-        PLAYER_RANGE = [2, 6].freeze
+        PLAYER_RANGE = [1, 6].freeze
       end
     end
   end
