@@ -14,15 +14,15 @@ module Engine
             abilities: [],
             color: nil,
           },
-          {
-            name: 'P2 - Unlicensed Gnome Bank',
-            value: 20,
-            revenue: -10,
-            desc: 'Most likely should be removed. Possibly make this unsellable. Comes with $80 which is awarded to the owning player immediately. If the owning player or corp does not have enough money to fully pay the -10 revenue of this private, pay as much as possible then close this private without penalty.',
-            sym: 'P2',
-            abilities: [],
-            color: nil,
-          },
+          #{
+          #  name: 'P2 - Unlicensed Gnome Bank',
+          #  value: 20,
+          #  revenue: -10,
+          #  desc: 'Most likely should be removed. Possibly make this unsellable. Comes with $80 which is awarded to the owning player immediately. If the owning player or corp does not have enough money to fully pay the -10 revenue of this private, pay as much as possible then close this private without penalty.',
+          #  sym: 'P2',
+          #  abilities: [],
+          #  color: nil,
+          #},
           {
             name: 'P3 - Dwarven Miners',
             value: 50,
@@ -31,12 +31,16 @@ module Engine
             sym: 'P3',
             abilities: [
               {
-                type: 'tile_discount',
-                discount: 120,
-                terrain: 'mountain',
-                owner_type: 'corporation',
+                type: 'tile_lay',
+                tiles: %w[7 8 9],
+                hexes: %w[C5 D4 E3 E5 F4 G3 I3 I11 I13 J4 J10 J12 K3 L4 ],
                 count: 1,
-              },
+                owner_type: 'corporation',
+                closed_when_used_up: true,
+                reachable: true,
+                free: true,
+                when: 'track'
+              } 
             ],
             color: nil,
           },
@@ -46,7 +50,9 @@ module Engine
             revenue: 15,
             desc: 'When owned by a corp, the company gets money into its treasury equal to one of the city values it has a station token. This happens during the run train step, regardless of the number of trains or lack thereof the corp has. This does not count as paying revenue for the purposes of stock movements and this money can never be given out as dividends.',
             sym: 'P4',
-            abilities: [],
+            abilities: [
+              { type: 'revenue_change', owner_type: 'corporation', revenue: 0},
+            ],
             color: nil,
           },
           {
@@ -71,7 +77,8 @@ module Engine
             desc: 'CAN ONLY BE BOUGHT INTO A COMPANY STARTING PHASE 5. A permanent 2-Train. Functions identically as a normal train. Counts for train capacity and fufills the requirement to have a train. Can be bought between companies. This company never closes.',
             sym: 'P6',
             abilities: [
-              { type: 'close', on_phase: 'never'}
+              { type: 'close', on_phase: 'never'},
+              { type: 'no_buy', remove: '5'},
             ],
             color: nil,
           },

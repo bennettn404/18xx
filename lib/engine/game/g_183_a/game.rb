@@ -126,6 +126,7 @@ module Engine
             train_limit: 2,
             tiles: %i[yellow green brown],
             operating_rounds: 3,
+            status: ['can_buy_companies'],
           },
           {
             name: 'D',
@@ -133,6 +134,7 @@ module Engine
             train_limit: 2,
             tiles: %i[yellow green brown],
             operating_rounds: 3,
+            status: ['can_buy_companies'],
           },
         ].freeze
 
@@ -154,7 +156,8 @@ module Engine
                     num: 20,
                     available_on: '6',
                     discount: { '4' => 300, '5' => 300, '6' => 300 },
-                  }].freeze
+                  },
+                  {name: '2P', distance: 2, num: 1, price: 0,}].freeze
 
         MUST_BID_INCREMENT_MULTIPLE = true
         SELL_BUY_ORDER = :sell_buy_sell
@@ -183,6 +186,7 @@ module Engine
         def operating_round(round_num)
           Round::Operating.new(self, [
             Engine::Step::Bankrupt,
+            Engine::Step::SpecialTrack,
             Engine::Step::BuyCompany,
             Engine::Step::HomeToken,
             Engine::Step::Track,
@@ -195,6 +199,39 @@ module Engine
           ], round_num: round_num)
         end
 
+        def setup
+          setup_companies
+        end
+
+        def setup_companies
+          @company_trains = {}
+          @company_trains['P6'] = find_and_remove_train_by_id('2P-0', buyable: false)
+        end
+
+        def company_bought(company, entity)
+          on_acquired_train(company, entity) if company.sym =='P6'
+        end
+
+        def on_acquired_train(company, entity)
+          train = @company_trains[company.id]
+
+          buy_train(entity, train, :free)
+          @log << "#{entity.name} gains a #{train.name} train"
+
+          # Company closes after it is flipped into a train
+          company.close!
+          @log << "#{company.name} closes"
+        end
+
+        def find_and_remove_train_by_id(train_id, buyable: true)
+          train = train_by_id(train_id)
+          return unless train
+
+          @depot.remove_train(train)
+          train.buyable = buyable
+          train.reserved = true
+          train
+        end
 
         def action_processed(action)
           if action.is_a?(Action::LayTile) && action.tile.name == '3A1'
