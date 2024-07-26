@@ -22,11 +22,11 @@ module Engine
 
         CURRENCY_FORMAT_STR = '$%s'
 
-        BANK_CASH = 9000
+        BANK_CASH = 8000
 
-        CERT_LIMIT = {1=> 40, 2 => 20, 3 => 14, 4 => 11, 5 => 10, 6 => 9 }.freeze
+        CERT_LIMIT = {1=> 56, 2 => 28, 3 => 20, 4 => 16, 5 => 13, 6 => 11 }.freeze
 
-        STARTING_CASH = { 1=> 1800 , 2 => 900, 3 => 600, 4 => 450, 5 => 360, 6 => 300 }.freeze
+        STARTING_CASH = { 1=> 2400 , 2 => 1200, 3 => 800, 4 => 600, 5 => 480, 6 => 400 }.freeze
 
         CAPITALIZATION = :full
 
