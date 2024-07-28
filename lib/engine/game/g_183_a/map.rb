@@ -167,11 +167,13 @@ module Engine
           'D14' => 'Human City 3',
           'E7' => 'Human City 2',
           'F2' => 'Dwarf City 1',
+          'F6' => 'Random City 9',
           'F12' => 'Random City 3',
           'G9' => 'London',
           'H2' => 'Random City 4',
           'H10' => 'Cursed Woods',
-          'I1' => 'Random City 5',
+          'I1' => 'Random Town 6',
+          'I3' => 'Random City 5',
           'I7' => 'Random City 6',
           'J8' => 'Town 5',
           'K11' => 'Random City 1',
@@ -187,12 +189,13 @@ module Engine
         HEXES = {
           white: {
             %w[A7 A11 A13 B6 B10 B14 C7 D2 D6 D8 D10 D12 E1 E9 E11 E13 F6 F8 F10 F14 G1 G5 G7 G11 I5 I9 I15 J2 J6 J14 J16 K1 K5 K7 K9 K15 L10 L12 L16 M5 M9 M11 M13 M15 N8] => '',
-            %w[A9 D14 E7 F12 H2 I1 I7 K11 L6 L8 L14 M7] => 'city=revenue:0',
-            %w[C3 G9 J8 K13] => 'town=revenue:0',
-            %w[C5 D4 E3 E5 F4 G3 I3 J4 K3 L4] => 'upgrade=cost:120,terrain:mountain',
+            %w[A9 D14 E7 F6 F12 H2 I7 K11 L6 L8 M7] => 'city=revenue:0',
+            %w[C3 G9 I1 J8 K13] => 'town=revenue:0',
+            %w[C5 D4 E3 E5 F4 G3 J4 K3 L4] => 'upgrade=cost:120,terrain:mountain',
             %w[I11 I13 J10 J12] => 'upgrade=cost:80,terrain:mountain',
             %w[B8 C13 G13 G15] => 'upgrade=cost:40,terrain:water',
             %w[C9 C11] => 'town=revenue:0;upgrade=cost:40,terrain:water',
+            %w[I3] => 'city=revenue:0;upgrade=cost:120,terrain:mountain',
             %w[H6 H14] => 'label=T',
             ['B12'] => 'city=revenue:0;label=H',
             ['H10'] =>
@@ -215,7 +218,7 @@ module Engine
           },
           gray: {
             ['E15'] =>'junction;path=a:2,b:_0,terminal:1',
-            ['H4'] =>'junction;path=a:0,b:_0,terminal:1',
+            ['H4'] =>'junction;path=a:0,b:_0,terminal:1;path=a:3,b:_0,terminal:1',
             ['H8'] =>'path=a:3,b:0;path=a:3,b:1;path=a:3,b:5',
             ['H12'] =>'path=a:0,b:2;path=a:0,b:3;path=a:0,b:4',
             ['H16'] =>'junction;path=a:3,b:_0,terminal:1',
@@ -223,6 +226,7 @@ module Engine
           },
           yellow: {
             ['F2'] => 'city=revenue:20;path=a:2,b:_0;path=a:_0,b:4;',
+            ['L14'] => 'city=revenue:20;path=a:2,b:_0;path=a:_0,b:3;',
           },
         }.freeze
 
