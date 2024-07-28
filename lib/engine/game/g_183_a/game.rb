@@ -145,7 +145,7 @@ module Engine
                     name: '5',
                     distance: 5,
                     price: 450,
-                    num: 32,
+                    num: 2,
                     events: [{ 'type' => 'close_companies' }],
                   },
                   { name: '6', distance: 6, price: 630, num: 2 },
@@ -205,7 +205,7 @@ module Engine
 
         def setup_companies
           @company_trains = {}
-          @company_trains['P6'] = find_and_remove_train_by_id('2P-0', buyable: false)
+          @company_trains['P6'] = find_and_remove_train_by_id('2P-0', buyable: true)
         end
 
         def company_bought(company, entity)
@@ -214,10 +214,8 @@ module Engine
 
         def on_acquired_train(company, entity)
           train = @company_trains[company.id]
-
           buy_train(entity, train, :free)
           @log << "#{entity.name} gains a #{train.name} train"
-
           # Company closes after it is flipped into a train
           company.close!
           @log << "#{company.name} closes"

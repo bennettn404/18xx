@@ -39,6 +39,7 @@ module Engine
                 closed_when_used_up: true,
                 reachable: true,
                 free: true,
+                consume_tile_lay: true,
                 when: 'track'
               } 
             ],
