@@ -10,11 +10,11 @@ module Engine
 
         DEV_STAGE = :production
 
-        GAME_SUBTITLE = 'Railroading'
+        GAME_SUBTITLE = 'v0.2'
         GAME_DESIGNER = 'Nicholas Bennett'
         GAME_INFO_URL = 'https://github.com/tobymao/18xx/wiki/183A'
         GAME_LOCATION = 'Placeholder, Placeholder'
-        GAME_PUBLISHER = :all_aboard_games
+        GAME_PUBLISHER = nil
         GAME_RULES_URL = 'https://boardgamegeek.com/filepage/206629/1882-rules'
 
         PLAYER_RANGE = [1, 6].freeze
