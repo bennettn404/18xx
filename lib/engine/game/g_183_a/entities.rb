@@ -89,7 +89,7 @@ module Engine
           {
             sym: 'CC',
             name: 'Cursed Creatures',
-            tokens: [0, 40, 100],
+            tokens: [0, 40],
             logo: '183_a/CC',
             simple_logo: '183_a/CC.alt',
             coordinates: 'H10',
@@ -127,7 +127,7 @@ module Engine
             name: 'Waning Elves',
             logo: '183_a/WE',
             simple_logo: '183_a/WE.alt',
-            tokens: [0, 40, 100],
+            tokens: [0, 40, 100, 100],
             coordinates: 'N12',
             color: '#4d2972',
           },          
@@ -155,7 +155,7 @@ module Engine
             logo: '183_a/SD',
             simple_logo: '183_a/SD.alt',
             tokens: [0, 40, 100],
-            coordinates: 'L14',
+            coordinates: 'K15',
             color: '#b18069',
           },
         ].freeze
