@@ -75,11 +75,11 @@ module Engine
             name: 'P6 - Transport Tortoise',
             value: 130,
             revenue: 15,
-            desc: 'CAN ONLY BE BOUGHT INTO A COMPANY STARTING PHASE 5. A permanent 2-Train. Functions identically as a normal train. Counts for train capacity and fufills the requirement to have a train. Can be bought between companies. This company never closes.',
+            desc: 'CAN ONLY BE BOUGHT INTO A COMPANY STARTING PHASE 6. A permanent 2-Train. Functions identically as a normal train. Counts for train capacity and fufills the requirement to have a train. Can be bought between companies. This company never closes.',
             sym: 'P6',
             abilities: [
               { type: 'close', on_phase: 'never'},
-              { type: 'no_buy', remove: '5'},
+              { type: 'no_buy', remove: '6'},
             ],
             color: nil,
           },

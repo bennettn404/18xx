@@ -132,14 +132,14 @@ module Engine
             name: 'D',
             on: 'D',
             train_limit: 2,
-            tiles: %i[yellow green brown],
+            tiles: %i[yellow green brown gray],
             operating_rounds: 3,
             status: ['can_buy_companies'],
           },
         ].freeze
 
         TRAINS = [{ name: '2', distance: 2, price: 80, rusts_on: '4', num: 8 },
-                  { name: '3', distance: 3, price: 180, rusts_on: '6', num: 6 },
+                  { name: '3', distance: 3, price: 180, rusts_on: '6', num: 5 },
                   { name: '4', distance: 4, price: 300, rusts_on: 'D', num: 4 },
                   {
                     name: '5',
@@ -164,7 +164,7 @@ module Engine
         TRACK_RESTRICTION = :permissive
         DISCARDED_TRAINS = :remove
 
-        GAME_END_CHECK = { bankrupt: :current_round, stock_market: :current_round, bank: :full_or }.freeze
+        GAME_END_CHECK = { bankrupt: :current_round, stock_market: :current_round, bank: :full_or, final_phase: :one_more_full_or_set}.freeze
         # Two lays or one upgrade, second tile costs 20
         TILE_LAYS = [{ lay: true, upgrade: true }, { lay: :not_if_upgraded, upgrade: false, cost: 20 }].freeze
 
