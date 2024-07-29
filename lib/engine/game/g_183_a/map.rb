@@ -172,25 +172,24 @@ module Engine
           'G9' => 'London',
           'H2' => 'Random City 4',
           'H10' => 'Cursed Woods',
-          'I1' => 'Random Town 6',
+          'I1' => 'Town 6',
           'I3' => 'Random City 5',
           'I7' => 'Random City 6',
           'J8' => 'Town 5',
-          'K11' => 'Random City 1',
           'K13' => 'Town 3',
           'K15' => 'Dwarf City 2',
           'L2' => 'East Mines',
           'L6' => 'Gnome City 1',
           'L8' => 'Random City 7',
-          'L12' => 'Random City 10',
+          'L12' => 'Random City 1',
           'M7' => 'Random City 8',
           'N12' => 'Elf City 1',
         }.freeze
 
         HEXES = {
           white: {
-            %w[A7 A11 A13 B6 B10 B14 C7 D2 D6 D8 D10 D12 E1 E9 E11 E13 F6 F8 F10 F14 G1 G5 G7 G11 I5 I9 I15 J2 J6 J14 J16 K1 K5 K7 K9 K15 L10 L14 L16 M5 M9 M11 M13 M15 N8] => '',
-            %w[A9 D14 E7 F6 F12 H2 I7 K11 K15 L6 L8 M7] => 'city=revenue:0',
+            %w[A7 A11 A13 B6 B10 B14 C7 D2 D6 D8 D10 D12 E1 E9 E11 E13 F6 F8 F10 F14 G1 G5 G7 G11 I5 I9 I15 J2 J6 J14 J16 K1 K5 K7 K9 K11 K15 L10 L14 L16 M5 M9 M11 M13 M15 N8] => '',
+            %w[A9 D14 E7 F6 F12 H2 I7 K15 L6 L8 M7] => 'city=revenue:0',
             %w[C3 G9 I1 J8 K13] => 'town=revenue:0',
             %w[C5 D4 E3 E5 F4 G3 J4 K3 L4] => 'upgrade=cost:120,terrain:mountain',
             %w[I11 I13 J10 J12] => 'upgrade=cost:80,terrain:mountain',
@@ -212,10 +211,12 @@ module Engine
             ['N12'] =>'city=revenue:yellow_60|green_30|brown_20|gray_0,slots:1;path=a:3,b:_0,terminal:1',
           },
           blue: {
-            ['A15'] =>'path=a:3,b:5;path=a:4,b:5',
+            ['A15'] =>
+            'offboard=revenue:yellow_10|green_10|brown_10|gray_10;path=a:3,b:_0;path=a:4,b:_0',
             ['B16'] =>
+            'offboard=revenue:yellow_10|green_10|brown_10|gray_10;path=a:3,b:_0;',
+            ['C15'] =>
             'offboard=revenue:yellow_10|green_10|brown_10|gray_10;path=a:2,b:_0;path=a:3,b:_0;path=a:4,b:_0',
-            ['C15'] =>'path=a:2,b:1;path=a:3,b:1;path=a:4,b:1',
           },
           gray: {
             ['E15'] =>'junction;path=a:2,b:_0,terminal:1',

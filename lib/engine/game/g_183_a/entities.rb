@@ -127,7 +127,7 @@ module Engine
             name: 'Waning Elves',
             logo: '183_a/WE',
             simple_logo: '183_a/WE.alt',
-            tokens: [0, 40, 100, 100],
+            tokens: [0, 40, 40, 100],
             coordinates: 'N12',
             color: '#4d2972',
           },          
