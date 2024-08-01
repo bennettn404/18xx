@@ -22,7 +22,7 @@ module Engine
 
         CURRENCY_FORMAT_STR = '$%s'
 
-        BANK_CASH = 8000
+        BANK_CASH = 99_999
 
         CERT_LIMIT = {1=> 56, 2 => 28, 3 => 20, 4 => 16, 5 => 13, 6 => 11 }.freeze
 
@@ -90,52 +90,32 @@ module Engine
 
         PHASES = [
           {
-            name: '2',
-            on: '2',
+            name: 'Yellow',
             train_limit: 4,
             tiles: [:yellow],
-            operating_rounds: 1,
+            operating_rounds: 2,
           },
           {
-            name: '3',
-            on: '3',
+            name: 'Green',
             train_limit: 4,
             tiles: %i[yellow green],
             operating_rounds: 2,
             status: ['can_buy_companies'],
           },
           {
-            name: '4',
-            on: '4',
-            train_limit: 4,
-            tiles: %i[yellow green],
-            operating_rounds: 2,
-            status: ['can_buy_companies'],
-          },
-          {
-            name: '5',
-            on: '5',
+            name: 'Brown',
             train_limit: 3,
             tiles: %i[yellow green brown],
             operating_rounds: 3,
-            status: ['can_buy_companies'],
+            status: ['can_buy_companies']
           },
           {
-            name: '6',
-            on: '6',
-            train_limit: 2,
-            tiles: %i[yellow green brown],
-            operating_rounds: 3,
-            status: ['can_buy_companies'],
-          },
-          {
-            name: 'D',
-            on: 'D',
+            name: 'Gray',
             train_limit: 2,
             tiles: %i[yellow green brown gray],
             operating_rounds: 3,
             status: ['can_buy_companies'],
-          },
+          }
         ].freeze
 
         TRAINS = [{ name: '2', distance: 2, price: 80, rusts_on: '4', num: 8 },
@@ -145,8 +125,7 @@ module Engine
                     name: '5',
                     distance: 5,
                     price: 450,
-                    num: 2,
-                    events: [{ 'type' => 'close_companies' }],
+                    num: 2
                   },
                   { name: '6', distance: 6, price: 630, num: 2 },
                   {
@@ -154,7 +133,7 @@ module Engine
                     distance: 999,
                     price: 1100,
                     num: 20,
-                    available_on: '6',
+                    available_on: 'Gray',
                     discount: { '4' => 300, '5' => 300, '6' => 300 },
                   },
                   {name: '2P', distance: 2, num: 1, price: 0,}].freeze
@@ -164,9 +143,69 @@ module Engine
         TRACK_RESTRICTION = :permissive
         DISCARDED_TRAINS = :remove
 
-        GAME_END_CHECK = { bankrupt: :current_round, stock_market: :current_round, bank: :full_or, final_phase: :one_more_full_or_set}.freeze
+        #GAME_END_CHECK = { bankrupt: :current_round, stock_market: :current_round, bank: :full_or, final_phase: :one_more_full_or_set}.freeze
+        GAME_END_CHECK = { bankrupt: :current_round, custom: :full_or }.freeze
+
+        GAME_END_REASONS_TEXT = Base::GAME_END_REASONS_TEXT.merge(
+          custom: 'Fixed number of Rounds'
+        )
+
         # Two lays or one upgrade, second tile costs 20
-        TILE_LAYS = [{ lay: true, upgrade: true }, { lay: :not_if_upgraded, upgrade: false, cost: 20 }].freeze
+        #TILE_LAYS = [{ lay: true, upgrade: true }, { lay: :not_if_upgraded, upgrade: false, cost: 20 }].freeze
+
+        # Two lays with one being an upgrade, second tile costs 20
+        TILE_LAYS = [
+          { lay: true, upgrade: true },
+          { lay: true, upgrade: :not_if_upgraded, cost: 20, cannot_reuse_same_hex: true },
+        ].freeze
+
+        PROGRESS_INFORMATION = [
+          { type: :AUCTION, color:'red' },
+          { type: :SR, name: '1', color:'blue'  },
+          { type: :OR, name: '1.1', color:'yellow' },
+          { type: :OR, name: '1.2', color:'yellow' },
+          { type: :SR, name: '2', phasechange:true, color:'blue' },
+          { type: :OR, name: '2.1',  color:'green' },
+          { type: :OR, name: '2.2',  color:'green' },
+          { type: :SR, name: '3',color:'blue'},
+          { type: :OR, name: '3.1', color:'green' },
+          { type: :OR, name: '3.1', color:'green' },
+          { type: :SR, name: '4', phasechange:true, color:'blue'},
+          { type: :OR, name: '4.1',  color:'brown' },
+          { type: :OR, name: '4.2',  color:'brown' },
+          { type: :OR, name: '4.3',  color:'brown' },
+          { type: :SR, name: '5', lastorset:true, phasechange:true, color:'blue'},
+          { type: :OR, name: '5.1', color:'gray' },
+          { type: :OR, name: '5.2', color:'gray' },
+          { type: :OR, name: '5.3', color:'gray' },
+          { type: :End, color:'red'},
+        ].freeze
+
+        def timeline
+          @timeline = [
+            'Start of OR 2.1: Green Tiles are now available',
+            'Start of OR 4.1: Brown Tiles are now available',
+            'Start of OR 5.1: Gray Tiles are now available',
+          ].freeze
+        end
+
+        def new_operating_round(round_num = 1)
+          puts "new_operating_round start"
+          puts @round_counter
+          puts progress_information[@round_counter]
+          if progress_information[@round_counter][:phasechange]
+            @phase.next!
+            @operating_rounds = @phase.operating_rounds
+          end
+
+          super
+        end
+
+        # Game will end directly after the end of OR 10
+        def custom_end_game_reached?
+          @game_end_triggered = progress_information[@round_counter][:lastorset] unless @game_end_triggered
+          @game_end_triggered
+        end
 
         def stock_round
           Round::Stock.new(self, [
@@ -197,6 +236,14 @@ module Engine
             Engine::Step::BuyTrain,
             [Engine::Step::BuyCompany, { blocks: true }],
           ], round_num: round_num)
+        end
+
+        def show_progress_bar?
+          true
+        end
+
+        def progress_information
+          self.class::PROGRESS_INFORMATION
         end
 
         def setup

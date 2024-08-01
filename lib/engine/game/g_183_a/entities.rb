@@ -11,7 +11,9 @@ module Engine
             revenue: 5,
             desc: 'This private does nothing, maybe it will block a tile, idk',
             sym: 'P1',
-            abilities: [],
+            abilities: [              
+              { type: 'close', on_phase: 'Brown'},
+            ],
             color: nil,
           },
           #{
@@ -30,6 +32,7 @@ module Engine
             desc: 'Owning corp may close this company during the tile-laying step to ignore one mountain terrain cost when laying a yellow tile.',
             sym: 'P3',
             abilities: [
+              { type: 'close', on_phase: 'Brown'},
               {
                 type: 'tile_lay',
                 tiles: %w[7 8 9],
@@ -52,6 +55,7 @@ module Engine
             desc: 'When owned by a corp, the company gets money into its treasury equal to one of the city values it has a station token. This happens during the run train step, regardless of the number of trains or lack thereof the corp has. This does not count as paying revenue for the purposes of stock movements and this money can never be given out as dividends.',
             sym: 'P4',
             abilities: [
+              { type: 'close', on_phase: 'Brown'},
               { type: 'revenue_change', owner_type: 'corporation', revenue: 0},
             ],
             color: nil,
@@ -63,11 +67,12 @@ module Engine
             desc: 'Comes with a share of a random non-CC Corp',
             sym: 'P5',
             abilities: [
+              { type: 'close', on_phase: 'Brown'},
               {
                 type: 'shares',
                 shares: 'random_share',
                 corporations: %w[SH NH ND WE SEH NG SD],
-              }
+              },
             ],
             color: nil,
           },
@@ -79,7 +84,7 @@ module Engine
             sym: 'P6',
             abilities: [
               { type: 'close', on_phase: 'never'},
-              { type: 'no_buy', remove: '6'},
+              { type: 'no_buy', remove: 'Gray'},
             ],
             color: nil,
           },

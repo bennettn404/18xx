@@ -10,7 +10,7 @@ module Engine
 
         DEV_STAGE = :production
 
-        GAME_SUBTITLE = 'v0.2'
+        GAME_SUBTITLE = 'v0.3'
         GAME_DESIGNER = 'Nicholas Bennett'
         GAME_INFO_URL = 'https://github.com/tobymao/18xx/wiki/183A'
         GAME_LOCATION = 'Placeholder, Placeholder'
