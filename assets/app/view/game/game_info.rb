@@ -412,6 +412,9 @@ module View
 
       def cell_props(type, current, color = nil)
         bg_color, font_color, justify =
+        if color
+            [color_for(color), contrast_on(color_for(color)), 'space-between']
+        else
           case type
           when :SR, :PRE
             [color_for(:green), contrast_on(color_for(:green)), 'space-between']
@@ -420,12 +423,9 @@ module View
           when :End
             [color_for(:blue), contrast_on(color_for(:blue)), 'space-between']
           else
-            if color
-              [color_for(color), contrast_on(color_for(color)), 'space-between']
-            else
-              [color_for(:bg2), color_for(:font2), 'space-between']
-            end
+            [color_for(:bg2), color_for(:font2), 'space-between']
           end
+        end
 
         props = {
           style: {
