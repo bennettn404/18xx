@@ -190,12 +190,11 @@ module Engine
         end
 
         def new_operating_round(round_num = 1)
-          puts "new_operating_round start"
-          puts @round_counter
-          puts progress_information[@round_counter]
           if progress_information[@round_counter][:phasechange]
-            @phase.next!
+            phase.next!
             @operating_rounds = @phase.operating_rounds
+            # may be a bug, train depot only refreshes on train purchase or export, not on phase change
+            @depot.depot_trains(clear: true)
           end
 
           super
@@ -281,8 +280,9 @@ module Engine
         def action_processed(action)
           if action.is_a?(Action::LayTile) && action.tile.name == '3A1'
             @log << '-- Woods Tile placed, CC can now be started! --'
-            return
           end
+
+          super
         end
 
         # CC can not be pared until W tile is laid (if ever),
