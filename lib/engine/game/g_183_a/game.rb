@@ -160,7 +160,7 @@ module Engine
         ].freeze
 
         PROGRESS_INFORMATION = [
-          { type: :AUCTION, color:'red' },
+          { type: :AUCTION, color:'black' },
           { type: :SR, name: '1', color:'blue'  },
           { type: :OR, name: '1.1', color:'yellow' },
           { type: :OR, name: '1.2', color:'yellow' },
